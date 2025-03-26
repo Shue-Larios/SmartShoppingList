@@ -1,7 +1,5 @@
 import { CheckIcon, MinusIcon } from "@heroicons/react/24/solid"
-import { categoryItems } from "../data/db"
-import { useEffect, useMemo, useState } from "react";
-import clsx from "clsx";
+import { categoryItems } from "../data/db" 
 
 
 const prueba = [
@@ -109,31 +107,6 @@ export const List = () => {
 
 
     </>
-
-
-    // <>
-
-
-
-    //   <div className={`grid  md:grid-cols-${Math.max(Math.min(vistaCat.length, 1), 4)} m-5 gap-2`}>
-    //     {vistaCat.map(item => (
-    //       <div key={item.id} className="pb-2  border rounded-lg">
-    //        
-    //         {/* decision si esta comprada o no */}
-    //         {prueba.map(p => p.buy === true
-    //           ? <div key={p.id} className="grid grid-cols-2">
-    //             <CheckIcon className="h-6 w-6 ml-5 text-blue-500 mr-3" />
-    //             <p>{p.nombre}</p>
-    //           </div>
-    //           : <div key={p.id} className="grid grid-cols-2">
-    //             <MinusIcon className="h-6 w-6 ml-5" />
-    //             <p>{p.nombre} </p>
-    //           </div>
-    //         )}
-    //       </div>
-    //     ))}
-    //   </div>
-    // </>
   )
 }
 
