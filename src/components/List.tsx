@@ -1,68 +1,64 @@
 import { CheckIcon, MinusIcon } from "@heroicons/react/24/solid"
 import { categoryItems } from "../data/db"
- 
+import { useEffect, useMemo, useState } from "react";
+import clsx from "clsx";
+
 
 const prueba = [
   {
     id: 11,
-    nombre: "Manzana",
+    name: "Manzana",
     categoria: 1,
     buy: false,
 
   },
   {
     id: 111,
-    nombre: "Pera",
+    name: "Pera",
     categoria: 1,
     buy: true,
 
   },
   {
     id: 22,
-    nombre: "Repollo",
+    name: "Repollo",
     categoria: 2,
     buy: true,
 
   },
   {
     id: 33,
-    nombre: "Quesillo",
+    name: "Quesillo",
     categoria: 3,
     buy: true,
 
   },
-  {
-    id: 44,
-    nombre: "Semitas",
-    categoria: 4,
-    buy: false,
+  // {
+  //   id: 44,
+  //   name: "Semitas",
+  //   categoria: 4,
+  //   buy: false,
 
-  },
-  {
-    id: 55,
-    nombre: "Pollo",
-    categoria: 5,
-    buy: false,
+  // },
+  // {
+  //   id: 55,
+  //   name: "Pollo",
+  //   categoria: 5,
+  //   buy: false,
 
-  },
-  {
-    id: 66,
-    nombre: "Coca Cola",
-    categoria: 6,
-    buy: true,
-  },
-  {
-    id: 77,
-    nombre: "Crema",
-    categoria: 7,
-    buy: true,
-  },
-  {
-    id: 88,
-    nombre: "Estufa",
-    categoria: 8,
-    buy: true,
-  }
+  // },
+  // {
+  //   id: 66,
+  //   name: "Coca Cola",
+  //   categoria: 6,
+  //   buy: true,
+  // },
+  // {
+  //   id: 77,
+  //   name: "Crema",
+  //   categoria: 7,
+  //   buy: true,
+  // } 
 ]
 
 export const List = () => {
@@ -74,17 +70,16 @@ export const List = () => {
     productos: prueba.filter(product => product.categoria === category.id),
   }));
 
- console.log(productosPorCategoria);
- 
 
   return (
     <>
-      <div className={`grid md:grid-cols-${Math.min(Math.max(productosPorCategoria.length, 1),4)} m-5 gap-2`}>
+      <div className="grid m-5 gap-2 md:grid-cols-4">
+
         {/* Mostrar los productos de la categoría Fruta (id: 1) */}
         {productosPorCategoria.map(category => (
-          <div key={category.id} className="pb-2  border rounded-lg">
+          <div key={category.id} className="pb-2    border rounded-lg">
             {category.productos.length > 0 && (
-              <div >
+              <>
                 <div className={`${category.color} text-white mb-2 border-b text-center text-2xl uppercase flex items-center justify-center`}>
                   {category.name}
                 </div>
@@ -94,23 +89,25 @@ export const List = () => {
                       <div key={product.id} className="grid grid-cols-2 bg-blue-200"
                       >
                         <CheckIcon className="h-6 w-6 ml-5 text-blue-500 mr-3 " />
-                        <p className="">{product.nombre}</p>
+                        <p className="">{product.name}</p>
                       </div>
                     </li>
                     : <li key={product.id} className="mb-2">
                       <div key={product.id} className="grid grid-cols-2">
                         <MinusIcon className="h-6 w-6 ml-5" />
-                        <p>{product.nombre}</p>
+                        <p>{product.name}</p>
 
                       </div>
                     </li>
                   )}
                 </ul>
-              </div>
+              </>
             )}
           </div>
         ))}
       </div>
+
+
     </>
 
 
