@@ -7,11 +7,11 @@ export type CategoryItems = {
 export type listItem = {
     id: number,
     name: string,
-    buy: boolean,
     categorie: number
+    buy: boolean,
 }
 
-
+ 
 
  
   

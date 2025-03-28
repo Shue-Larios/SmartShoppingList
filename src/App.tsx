@@ -17,6 +17,7 @@ function App() {
   const [list, setList] = useState<listItem[]>([])
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  console.log(setList);
 
 
 
@@ -32,7 +33,7 @@ function App() {
 
       {/* para abrir la ventana modal */}
       <div className="App">
-        <button className="fixed bottom-4 right-5 bg-blue-500 text-white rounded-full h-10 w-10 md:h-15 md:w-15 hover:bg-blue-700 text-center"
+        <button className="fixed bottom-4 right-5 bg-lime-500 text-white rounded-full h-10 w-10 md:h-15 md:w-15 hover:bg-lime-600 text-center cursor-pointer"
           onClick={() => setIsModalVisible(true)}
         >
           <PlusIcon
