@@ -18,7 +18,7 @@ function App() {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
 
-
+console.log(setList);
 
   return (
 
