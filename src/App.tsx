@@ -1,11 +1,14 @@
- 
+
 import { Header } from "./components/Header"
 import { List } from "./components/List"
 import { PlusIcon } from '@heroicons/react/24/solid'
 import { listItem } from "./types"
 import { Modal } from "./components/Modal"
 import { useState } from "react"
- 
+
+
+
+
 function App() {
 
   // const [state, dispatch] = useReducer(productsReducer, initialState)
@@ -14,8 +17,8 @@ function App() {
   const [list, setList] = useState<listItem[]>([])
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  console.log(setList);
-  
+
+
 
   return (
 
@@ -41,7 +44,6 @@ function App() {
           setIsModalVisible={setIsModalVisible}
         />
       </div>
-
     </>
   )
 }

@@ -1,5 +1,34 @@
 import { CheckIcon, MinusIcon } from "@heroicons/react/24/solid"
-import { categoryItems } from "../data/db" 
+import { categoryItems } from "../data/db"
+
+import {
+  LeadingActions,
+  SwipeableList,
+  SwipeableListItem,
+  SwipeAction,
+  TrailingActions,
+} from 'react-swipeable-list';
+import 'react-swipeable-list/dist/styles.css';
+
+
+const leadingActions = () => (
+  <LeadingActions>
+    <SwipeAction onClick={() => console.info('Editando....')}>
+      Editar
+    </SwipeAction>
+  </LeadingActions>
+);
+
+const trailingActions = () => (
+  <TrailingActions>
+    <SwipeAction
+      // destructive={true}
+      onClick={() => console.info('Eliminando')}
+    >
+      Eliminar
+    </SwipeAction>
+  </TrailingActions>
+);
 
 
 const prueba = [
@@ -61,8 +90,6 @@ const prueba = [
 
 export const List = () => {
 
-
-
   const productosPorCategoria = categoryItems.filter(f => prueba.some(p => p.categoria === f.id)).map(category => ({
     ...category,
     productos: prueba.filter(product => product.categoria === category.id),
@@ -72,7 +99,6 @@ export const List = () => {
   return (
     <>
       <div className="grid m-5 gap-2 md:grid-cols-4">
-
         {/* Mostrar los productos de la categoría Fruta (id: 1) */}
         {productosPorCategoria.map(category => (
           <div key={category.id} className="pb-2    border rounded-lg">
@@ -83,20 +109,28 @@ export const List = () => {
                 </div>
                 <ul>
                   {category.productos.map(product => product.buy === true
-                    ? <li key={product.id} className="mb-2" >
-                      <div key={product.id} className="grid grid-cols-2 bg-blue-200"
-                      >
-                        <CheckIcon className="h-6 w-6 ml-5 text-blue-500 mr-3 " />
-                        <p className="">{product.name}</p>
-                      </div>
-                    </li>
-                    : <li key={product.id} className="mb-2">
-                      <div key={product.id} className="grid grid-cols-2">
-                        <MinusIcon className="h-6 w-6 ml-5" />
-                        <p>{product.name}</p>
-
-                      </div>
-                    </li>
+                    ?
+                    <SwipeableList key={product.id}>
+                      <SwipeableListItem
+                        leadingActions={leadingActions()}
+                        trailingActions={trailingActions()} >
+                        <div className="flex justify-center gap-5 w-full cursor-pointer bg-blue-200">
+                          <CheckIcon className="h-6 w-6 ml-5 text-blue-500 mr-3" />
+                          <p className="">{product.name}</p>
+                        </div>
+                      </SwipeableListItem>
+                    </SwipeableList>
+                    :
+                    <SwipeableList key={product.id}>
+                      <SwipeableListItem
+                        leadingActions={leadingActions()}
+                        trailingActions={trailingActions()} >
+                         <div className="flex justify-center gap-5 w-full cursor-pointer bg-gray-200">
+                          <MinusIcon className="h-6 w-6 ml-5" />
+                          <p>{product.name}</p>
+                        </div>
+                      </SwipeableListItem>
+                    </SwipeableList>
                   )}
                 </ul>
               </>
@@ -104,8 +138,6 @@ export const List = () => {
           </div>
         ))}
       </div>
-
-
     </>
   )
 }
