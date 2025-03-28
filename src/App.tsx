@@ -19,7 +19,7 @@ function App() {
 
   console.log(setList);
 
-
+console.log(setList);
 
   return (
 
