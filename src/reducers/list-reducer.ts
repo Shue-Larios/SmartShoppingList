@@ -35,7 +35,7 @@ export const productsReducer = (
         // para editar
         if (state.productId) {
             updateList = state.products.map(item => item.id === state.productId ? action.payload.newProducts : item)
-            console.log(updateList, "update");
+
         } else {
             //    para guardar nuevo
             updateList = [...state.products, action.payload.newProducts]

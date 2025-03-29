@@ -4,7 +4,7 @@ import { ArrowUpCircleIcon } from '@heroicons/react/24/solid'
 import { ProductsActions, ProductsState } from "../reducers/list-reducer"
 import { listItem } from "../types"
 import { Toast } from "../helpers"
-
+import { v4 as uuidv4 } from 'uuid';
 type FormProps = {
     setIsModalVisible: Dispatch<SetStateAction<boolean>>
     dispatch: ActionDispatch<[action: ProductsActions]>
@@ -13,7 +13,7 @@ type FormProps = {
 
 const initialState: listItem = {
     // para generar un id  
-    id: crypto.randomUUID(),
+    id:  "",
     name: "",
     categorie: 1,
     buy: false,
@@ -21,29 +21,28 @@ const initialState: listItem = {
     price: 0
 }
 
-
-
 export const Form = ({ setIsModalVisible, dispatch, state }: FormProps) => {
 
     const [list, setList] = useState<listItem>(initialState)
+    console.log(list, "list");
 
-// este useEffect funciona para llenar los input al momento de actualizar
-      useEffect(() => {
+
+    // este useEffect funciona para llenar los input al momento de actualizar
+    useEffect(() => {
         if (state.productId) {
             // filter me retorna un arreglo x eso ponemos la posicion 0
             // con esta linea me traigo la actividad que tenga el mismo id
-            const selectedProduct= state.products.filter(item => item.id === state.productId)[0]
+            const selectedProduct = state.products.filter(item => item.id === state.productId)[0]
             setList(selectedProduct)
         }
     }, [state.productId])
 
 
     const handleChange = (e: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.value);
         // identificar los datos que llegan como string para convertir los a number antes de setearlos a nuestro state
         // ['category'] es el nombre del campo del state que tengo que revisar si esta como string pa cambiarlo
         // e.target.id es el nombre de los input en general
-        const isNumberField = ['categorie','price', "amount" ].includes(e.target.id)
+        const isNumberField = ['categorie', 'price', "amount"].includes(e.target.id)
         setList({
             ...list, //una copia de mi state
             // isNumberField me regresa un true o false
@@ -55,7 +54,13 @@ export const Form = ({ setIsModalVisible, dispatch, state }: FormProps) => {
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        if (state.products.some(item=> item.name === list.name)) {
+
+        // Si no hay ID, es un nuevo producto, por lo tanto genera un ID
+        if (!list.id) {
+            list.id = uuidv4();  // Solo genera el ID si es un producto nuevo
+        }
+
+        if (state.products.some(item => item.name === list.name)) {
             console.log("repetido");
             Toast.fire({
                 icon: "error",
@@ -70,6 +75,7 @@ export const Form = ({ setIsModalVisible, dispatch, state }: FormProps) => {
             title: "Producto Agregado"
         });
         setIsModalVisible(false)
+
     }
 
 
@@ -80,7 +86,7 @@ export const Form = ({ setIsModalVisible, dispatch, state }: FormProps) => {
                 <div className="p-2 space-x-3">
                     <label htmlFor="categorie">Categoria</label>
                     <select id="categorie" className="border border-lime-500 rounded-lg mt-2 p-1 w-full"
-                         value={list.categorie}
+                        value={list.categorie}
                         onChange={handleChange}
                     >
                         {categoryItems.map((item => (
@@ -95,7 +101,7 @@ export const Form = ({ setIsModalVisible, dispatch, state }: FormProps) => {
                         placeholder="Nombre del producto"
                         required
                         className="border border-lime-500 rounded-lg mt-2 p-1 w-full"
-                         value={list.name}
+                        value={list.name}
                         onChange={handleChange}
                     />
                 </div>
@@ -107,7 +113,7 @@ export const Form = ({ setIsModalVisible, dispatch, state }: FormProps) => {
                         id="amount"
                         min={1}
                         className=" border border-lime-500 rounded-lg mt-2 p-1 w-full"
-                         value={list.amount}
+                        value={list.amount}
                         onChange={handleChange}
                     />
                 </div>
