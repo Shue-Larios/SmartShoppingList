@@ -10,35 +10,17 @@ import {
 } from 'react-swipeable-list';
 import 'react-swipeable-list/dist/styles.css';
 import { listItem } from "../types";
-import { ProductsState } from "../reducers/list-reducer";
+import { ProductsActions, ProductsState } from "../reducers/list-reducer";
 import { Toast } from "../helpers";
-
-// la accion para editar
-const leadingActions = () => (
-  <LeadingActions>
-    <SwipeAction onClick={() => console.info('Editando....')}>
-      Editar
-    </SwipeAction>
-  </LeadingActions>
-);
-// la accion para eliminar
-const trailingActions = () => (
-  <TrailingActions>
-    <SwipeAction
-      // destructive={true}
-      onClick={() => console.info('Eliminando')}
-    >
-      Eliminar
-    </SwipeAction>
-  </TrailingActions>
-);
-
+import { ActionDispatch, Dispatch, SetStateAction } from "react";
 
 type ListProps = {
   state: ProductsState
+  dispatch: ActionDispatch<[action: ProductsActions]>
+  setIsModalVisible: Dispatch<SetStateAction<boolean>>
 }
 
-export const List = ({ state }: ListProps) => {
+export const List = ({ state, setIsModalVisible, dispatch}: ListProps) => {
 
   const productList = state.products
 
@@ -46,6 +28,35 @@ export const List = ({ state }: ListProps) => {
     ...category,
     productos: productList.filter(product => product.categorie === category.id),
   }));
+
+  // ============================
+  // la accion para editar
+  const leadingActions = (e: string) => (
+    <LeadingActions>
+      <SwipeAction onClick={() => Edit(e)}>
+        Editar
+      </SwipeAction>
+    </LeadingActions>
+  );
+  // la accion para eliminar
+  const trailingActions = () => (
+    <TrailingActions>
+      <SwipeAction
+        // destructive={true}
+        onClick={() => console.info('Eliminando')}
+      >
+        Eliminar
+      </SwipeAction>
+    </TrailingActions>
+  );
+  // ==============================
+
+
+  // Funcion para editar
+  const Edit = (e: string) => {
+    dispatch({ type: "set-productId", payload: { id: e } })
+    setIsModalVisible(true)
+  }
 
   // para saber si el producto ya se compro
   const purchasedItem = (e: listItem) => {
@@ -79,7 +90,7 @@ export const List = ({ state }: ListProps) => {
                       <SwipeableList>
                         <SwipeableListItem
                           maxSwipe={50}
-                          leadingActions={leadingActions()}
+                          leadingActions={leadingActions(product.id)}
                           trailingActions={trailingActions()}>
                           <div className="flex justify-center gap-5 w-full h-8 items-center cursor-pointer bg-blue-200"
                             onDoubleClick={() => purchasedItem(product)}>
@@ -95,13 +106,14 @@ export const List = ({ state }: ListProps) => {
                       <SwipeableList >
                         <SwipeableListItem
                           maxSwipe={50}
-                          leadingActions={leadingActions()}
+                          leadingActions={leadingActions(product.id)}
                           trailingActions={trailingActions()} >
                           <div className="flex justify-center gap-5 w-full h-8 items-center cursor-pointer bg-gray-200"
                             onDoubleClick={() => purchasedItem(product)}
                           >
                             <MinusIcon className="h-6 w-6 ml-5" />
-                            <p>{product.name}</p>
+                            <p>{product.amount}{" "}
+                              {product.name}</p>
                           </div>
                         </SwipeableListItem>
                       </SwipeableList>

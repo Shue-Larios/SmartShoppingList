@@ -1,17 +1,18 @@
 import { ActionDispatch, Dispatch, SetStateAction } from "react";
 import { Form } from "./Form";
 import { XCircleIcon } from '@heroicons/react/24/solid'
-import { ProductsActions } from "../reducers/list-reducer";
+import { ProductsActions, ProductsState } from "../reducers/list-reducer";
 type ModalProps = {
     isModalVisible: boolean
     setIsModalVisible: Dispatch<SetStateAction<boolean>>
+    state: ProductsState
     dispatch: ActionDispatch<[action: ProductsActions]>
 
 }
 // dispatch({ type: "save-product", payload: { newProducts: e } })
 
 
-export const Modal = ({ isModalVisible, setIsModalVisible, dispatch }: ModalProps) => {
+export const Modal = ({ isModalVisible, setIsModalVisible, state, dispatch }: ModalProps) => {
 
     if (!isModalVisible) return null; // Si no se debe mostrar la modal, no renderiza nada
 
@@ -20,7 +21,14 @@ export const Modal = ({ isModalVisible, setIsModalVisible, dispatch }: ModalProp
     const handleClickOut = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         if ((e.target as HTMLElement).classList.contains('backModal')) {
             setIsModalVisible(false)
+            state.productId = ""
         }
+    }
+
+    // cerrar el modal con el boton
+    const circleIconOut = () =>{
+        setIsModalVisible(false)
+        state.productId = ""
     }
 
     // lg:w-1/4 md:w-1/2
@@ -35,7 +43,7 @@ export const Modal = ({ isModalVisible, setIsModalVisible, dispatch }: ModalProp
                 <div className="relative">
                     <XCircleIcon
                         title="Cerrar Ventana"
-                        onClick={() => setIsModalVisible(false)}
+                        onClick={circleIconOut}
                         className='absolute -top-10 -right-20 px-10  h-10 cursor-pointer text-red-500'
                     />
                     <h2 className="text-2xl mb-4 text-center">¡Agrega producto a tu Lista!</h2>
@@ -43,6 +51,7 @@ export const Modal = ({ isModalVisible, setIsModalVisible, dispatch }: ModalProp
                     <Form
                         setIsModalVisible={setIsModalVisible}
                         dispatch={dispatch}
+                        state={state}
                     />
                 </div>
             </div>

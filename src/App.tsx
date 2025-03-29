@@ -3,7 +3,7 @@ import { Header } from "./components/Header"
 import { List } from "./components/List"
 import { PlusIcon } from '@heroicons/react/24/solid'
 import { Modal } from "./components/Modal"
-import {  useReducer, useState } from "react"
+import { useReducer, useState } from "react"
 import { initialState, productsReducer } from "./reducers/list-reducer"
 
 
@@ -16,22 +16,25 @@ function App() {
 
   // para el modal si esta abierto o no
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+
  
 
-   
-  
+ 
 
   return (
 
- 
+
     <>
       <Header
-          state={state}      
+        state={state}
       />
       {state.products.length === 0
         ? <h2 className="text-center m-10 uppercase">Tu Lista se Encuentra vacia...</h2>
         : <List
           state={state}
+          dispatch={dispatch}
+          setIsModalVisible={setIsModalVisible}
         />
       }
 
@@ -55,6 +58,7 @@ function App() {
         <Modal
           isModalVisible={isModalVisible}
           setIsModalVisible={setIsModalVisible}
+          state={state}
           dispatch={dispatch}
         />
       </div>

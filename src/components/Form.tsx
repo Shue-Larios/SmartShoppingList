@@ -1,13 +1,14 @@
-import { ActionDispatch, ChangeEvent, Dispatch, FormEvent, SetStateAction, useState } from "react"
+import { ActionDispatch, ChangeEvent, Dispatch, FormEvent, SetStateAction, useEffect, useState } from "react"
 import { categoryItems } from "../data/db"
 import { ArrowUpCircleIcon } from '@heroicons/react/24/solid'
-import { ProductsActions } from "../reducers/list-reducer"
+import { ProductsActions, ProductsState } from "../reducers/list-reducer"
 import { listItem } from "../types"
 import { Toast } from "../helpers"
 
 type FormProps = {
     setIsModalVisible: Dispatch<SetStateAction<boolean>>
     dispatch: ActionDispatch<[action: ProductsActions]>
+    state: ProductsState
 }
 
 const initialState: listItem = {
@@ -22,10 +23,19 @@ const initialState: listItem = {
 
 
 
-export const Form = ({ setIsModalVisible, dispatch }: FormProps) => {
+export const Form = ({ setIsModalVisible, dispatch, state }: FormProps) => {
 
     const [list, setList] = useState<listItem>(initialState)
 
+// este useEffect funciona para llenar los input al momento de actualizar
+      useEffect(() => {
+        if (state.productId) {
+            // filter me retorna un arreglo x eso ponemos la posicion 0
+            // con esta linea me traigo la actividad que tenga el mismo id
+            const selectedProduct= state.products.filter(item => item.id === state.productId)[0]
+            setList(selectedProduct)
+        }
+    }, [state.productId])
 
 
     const handleChange = (e: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +43,7 @@ export const Form = ({ setIsModalVisible, dispatch }: FormProps) => {
         // identificar los datos que llegan como string para convertir los a number antes de setearlos a nuestro state
         // ['category'] es el nombre del campo del state que tengo que revisar si esta como string pa cambiarlo
         // e.target.id es el nombre de los input en general
-        const isNumberField = ['categorie','price' ].includes(e.target.id)
+        const isNumberField = ['categorie','price', "amount" ].includes(e.target.id)
         setList({
             ...list, //una copia de mi state
             // isNumberField me regresa un true o false
@@ -45,14 +55,20 @@ export const Form = ({ setIsModalVisible, dispatch }: FormProps) => {
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        if (state.products.some(item=> item.name === list.name)) {
+            console.log("repetido");
+            Toast.fire({
+                icon: "error",
+                title: `${list.name} Duplicado`
+            });
+            return
+        }
         dispatch({ type: 'save-product', payload: { newProducts: list } })
         // Ventana emergente que avisa que se agrego lo puse como un helper
         Toast.fire({
             icon: "success",
             title: "Producto Agregado"
         });
-
-
         setIsModalVisible(false)
     }
 
@@ -64,7 +80,7 @@ export const Form = ({ setIsModalVisible, dispatch }: FormProps) => {
                 <div className="p-2 space-x-3">
                     <label htmlFor="categorie">Categoria</label>
                     <select id="categorie" className="border border-lime-500 rounded-lg mt-2 p-1 w-full"
-                        //  value={list.id}
+                         value={list.categorie}
                         onChange={handleChange}
                     >
                         {categoryItems.map((item => (
@@ -78,8 +94,8 @@ export const Form = ({ setIsModalVisible, dispatch }: FormProps) => {
                     <input type="text" id="name"
                         placeholder="Nombre del producto"
                         required
-                        className=" border border-lime-500 rounded-lg mt-2 p-1 w-full"
-                        // value={list.name}
+                        className="border border-lime-500 rounded-lg mt-2 p-1 w-full"
+                         value={list.name}
                         onChange={handleChange}
                     />
                 </div>
@@ -89,9 +105,9 @@ export const Form = ({ setIsModalVisible, dispatch }: FormProps) => {
                         placeholder="Cantidad a Comprar"
                         required
                         id="amount"
-                        min={0}
+                        min={1}
                         className=" border border-lime-500 rounded-lg mt-2 p-1 w-full"
-                        // value={list.amount}
+                         value={list.amount}
                         onChange={handleChange}
                     />
                 </div>
@@ -101,9 +117,9 @@ export const Form = ({ setIsModalVisible, dispatch }: FormProps) => {
                         placeholder="Precio Unitario"
                         required
                         id="price"
-                        min={0}
+                        min={1}
                         className=" border border-lime-500 rounded-lg p-1 mt-2 w-full"
-                        // value={list.price}
+                        value={list.price}
                         onChange={handleChange}
                     />
                 </div>
