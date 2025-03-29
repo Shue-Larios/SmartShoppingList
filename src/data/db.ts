@@ -41,6 +41,11 @@ export const categoryItems : CategoryItems[] = [
         "id": 8,
         "name": "Para el Hogar",
         "color": "bg-fuchsia-400"
+    },
+    {
+        "id": 9,
+        "name": "Granos Basico",
+        "color": "bg-slate-500"
     }
 ]
 

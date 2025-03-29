@@ -1,8 +1,10 @@
+import Swal from "sweetalert2";
+
 // funcion para formatear cantidades son signo de dolar
 export const formatCurrency = (quantity: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('en-HN', {
         style: "currency",
-        currency : "USD"
+        currency: "Lps"
     }).format(quantity)
 }
 
@@ -15,3 +17,15 @@ export const formatCurrencyWithLimit = (quantity: number) => {
         currency: "USD"
     }).format(limitedQuantity);
 }
+
+export const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+    }
+});

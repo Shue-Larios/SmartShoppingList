@@ -5,13 +5,14 @@ export type CategoryItems = {
 }
 
 export type listItem = {
-    id: number,
+    id: string,
+    categorie: number,
     name: string,
-    categorie: number
+    amount: number,
+    price: number
     buy: boolean,
 }
 
- 
 
- 
-  
+
+

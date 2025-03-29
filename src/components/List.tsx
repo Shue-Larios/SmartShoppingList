@@ -9,11 +9,11 @@ import {
   TrailingActions,
 } from 'react-swipeable-list';
 import 'react-swipeable-list/dist/styles.css';
-import Swal from "sweetalert2";
 import { listItem } from "../types";
+import { ProductsState } from "../reducers/list-reducer";
+import { Toast } from "../helpers";
 
-
-
+// la accion para editar
 const leadingActions = () => (
   <LeadingActions>
     <SwipeAction onClick={() => console.info('Editando....')}>
@@ -21,7 +21,7 @@ const leadingActions = () => (
     </SwipeAction>
   </LeadingActions>
 );
-
+// la accion para eliminar
 const trailingActions = () => (
   <TrailingActions>
     <SwipeAction
@@ -33,82 +33,21 @@ const trailingActions = () => (
   </TrailingActions>
 );
 
-const Toast = Swal.mixin({
-  toast: true,
-  position: "top-end",
-  showConfirmButton: false,
-  timer: 3000,
-  timerProgressBar: true,
-  didOpen: (toast) => {
-    toast.onmouseenter = Swal.stopTimer;
-    toast.onmouseleave = Swal.resumeTimer;
-  }
-});
 
-const prueba: listItem[] = [
-  {
-    id: 11,
-    name: "Manzana",
-    categorie: 1,
-    buy: false,
+type ListProps = {
+  state: ProductsState
+}
 
-  },
-  {
-    id: 111,
-    name: "Pera",
-    categorie: 1,
-    buy: true,
+export const List = ({ state }: ListProps) => {
 
-  },
-  {
-    id: 22,
-    name: "Repollo",
-    categorie: 2,
-    buy: true,
+  const productList = state.products
 
-  },
-  {
-    id: 33,
-    name: "Quesillo",
-    categorie: 3,
-    buy: true,
-
-  },
-  {
-    id: 44,
-    name: "Semitas",
-    categorie: 4,
-    buy: false,
-
-  },
-  {
-    id: 55,
-    name: "Pollo",
-    categorie: 5,
-    buy: false,
-
-  },
-  {
-    id: 66,
-    name: "Coca Cola",
-    categorie: 6,
-    buy: true,
-  },
-  {
-    id: 77,
-    name: "Crema",
-    categorie: 7,
-    buy: true,
-  }
-]
-
-export const List = () => {
-
-  const productosPorCategoria = categoryItems.filter(f => prueba.some(p => p.categorie === f.id)).map(category => ({
+  const productosPorCategoria = categoryItems.filter(f => productList.some(p => p.categorie === f.id)).map(category => ({
     ...category,
-    productos: prueba.filter(product => product.categorie === category.id),
+    productos: productList.filter(product => product.categorie === category.id),
   }));
 
+  // para saber si el producto ya se compro
   const purchasedItem = (e: listItem) => {
     if (e.buy === false) {
       Toast.fire({
@@ -122,8 +61,6 @@ export const List = () => {
       });
     }
   }
-
-
 
   return (
     <>
@@ -141,10 +78,11 @@ export const List = () => {
                     <li key={product.id}>
                       <SwipeableList>
                         <SwipeableListItem
+                          maxSwipe={50}
                           leadingActions={leadingActions()}
                           trailingActions={trailingActions()}>
                           <div className="flex justify-center gap-5 w-full h-8 items-center cursor-pointer bg-blue-200"
-                            onClick={() => purchasedItem(product)}>
+                            onDoubleClick={() => purchasedItem(product)}>
 
                             <CheckIcon className="h-6 w-6 ml-5 text-blue-500 mr-3" />
                             <p className="">{product.name}</p>
@@ -156,10 +94,11 @@ export const List = () => {
                     <li key={product.id}>
                       <SwipeableList >
                         <SwipeableListItem
+                          maxSwipe={50}
                           leadingActions={leadingActions()}
                           trailingActions={trailingActions()} >
                           <div className="flex justify-center gap-5 w-full h-8 items-center cursor-pointer bg-gray-200"
-                            onClick={() => purchasedItem(product)}
+                            onDoubleClick={() => purchasedItem(product)}
                           >
                             <MinusIcon className="h-6 w-6 ml-5" />
                             <p>{product.name}</p>
