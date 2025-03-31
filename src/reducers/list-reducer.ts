@@ -10,7 +10,8 @@ export type ProductsActions =
     // esta es la accion para actualizar
     { type: "set-productId", payload: { id: listItem["id"] } } |
     { type: "purchased-product", payload: { id: listItem["id"] } } |
-    { type: "delete-product", payload: { id: listItem["id"] } }
+    { type: "delete-product", payload: { id: listItem["id"] } }   |
+    { type: "reset-app" }
 
 
 export type ProductsState = {
@@ -96,6 +97,14 @@ export const productsReducer = (
         }
     }
 
+    if (action.type === "reset-app") {
+        localStorage.removeItem("products")
+        return {
+            // tengo una copia de lo que no voy actualizar
+            products: [],
+            productId: ""
+        }
+    }
 
     return state
 }
