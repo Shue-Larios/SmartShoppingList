@@ -20,7 +20,7 @@ type ListProps = {
   setIsModalVisible: Dispatch<SetStateAction<boolean>>
 }
 
-export const List = ({ state, setIsModalVisible, dispatch}: ListProps) => {
+export const List = ({ state, setIsModalVisible, dispatch }: ListProps) => {
 
   const productList = state.products
 
@@ -39,11 +39,11 @@ export const List = ({ state, setIsModalVisible, dispatch}: ListProps) => {
     </LeadingActions>
   );
   // la accion para eliminar
-  const trailingActions = () => (
+  const trailingActions = (e: string) => (
     <TrailingActions>
       <SwipeAction
         // destructive={true}
-        onClick={() => console.info('Eliminando')}
+        onClick={() => Deleted(e)}
       >
         Eliminar
       </SwipeAction>
@@ -58,8 +58,17 @@ export const List = ({ state, setIsModalVisible, dispatch}: ListProps) => {
     setIsModalVisible(true)
   }
 
+  // Funcion para Eliminar
+  const Deleted = (e: string) => {
+    console.log(e);
+    dispatch({ type: "delete-product", payload: { id: e } })
+  }
+
   // para saber si el producto ya se compro
   const purchasedItem = (e: listItem) => {
+
+    dispatch({ type: "purchased-product", payload: { id: e.id } })
+
     if (e.buy === false) {
       Toast.fire({
         icon: "success",
@@ -91,7 +100,7 @@ export const List = ({ state, setIsModalVisible, dispatch}: ListProps) => {
                         <SwipeableListItem
                           maxSwipe={50}
                           leadingActions={leadingActions(product.id)}
-                          trailingActions={trailingActions()}>
+                          trailingActions={trailingActions(product.id)}>
                           <div className="flex justify-center gap-5 w-full h-8 items-center cursor-pointer bg-blue-200"
                             onDoubleClick={() => purchasedItem(product)}>
 
@@ -107,7 +116,7 @@ export const List = ({ state, setIsModalVisible, dispatch}: ListProps) => {
                         <SwipeableListItem
                           maxSwipe={50}
                           leadingActions={leadingActions(product.id)}
-                          trailingActions={trailingActions()} >
+                          trailingActions={trailingActions(product.id)} >
                           <div className="flex justify-center gap-5 w-full h-8 items-center cursor-pointer bg-gray-200"
                             onDoubleClick={() => purchasedItem(product)}
                           >

@@ -1,9 +1,9 @@
-import { ActionDispatch, ChangeEvent, Dispatch, FormEvent, SetStateAction, useEffect, useState } from "react"
+import { ActionDispatch, ChangeEvent, Dispatch, FormEvent, SetStateAction, useEffect, useMemo, useState } from "react"
 import { categoryItems } from "../data/db"
 import { ArrowUpCircleIcon } from '@heroicons/react/24/solid'
 import { ProductsActions, ProductsState } from "../reducers/list-reducer"
 import { listItem } from "../types"
-import { Toast } from "../helpers"
+import { formatCurrency, Toast } from "../helpers"
 import { v4 as uuidv4 } from 'uuid';
 type FormProps = {
     setIsModalVisible: Dispatch<SetStateAction<boolean>>
@@ -13,7 +13,7 @@ type FormProps = {
 
 const initialState: listItem = {
     // para generar un id  
-    id:  "",
+    id: "",
     name: "",
     categorie: 1,
     buy: false,
@@ -24,7 +24,9 @@ const initialState: listItem = {
 export const Form = ({ setIsModalVisible, dispatch, state }: FormProps) => {
 
     const [list, setList] = useState<listItem>(initialState)
-    console.log(list, "list");
+
+    const estimatedTotal = useMemo(() => list.amount * list.price, [list])
+
 
 
     // este useEffect funciona para llenar los input al momento de actualizar
@@ -60,7 +62,7 @@ export const Form = ({ setIsModalVisible, dispatch, state }: FormProps) => {
             list.id = uuidv4();  // Solo genera el ID si es un producto nuevo
         }
 
-        if (state.products.some(item => item.name === list.name)) {
+        if (state.products.some(item => item.name === list.name && state.productId === "")) {
             console.log("repetido");
             Toast.fire({
                 icon: "error",
@@ -70,10 +72,18 @@ export const Form = ({ setIsModalVisible, dispatch, state }: FormProps) => {
         }
         dispatch({ type: 'save-product', payload: { newProducts: list } })
         // Ventana emergente que avisa que se agrego lo puse como un helper
-        Toast.fire({
-            icon: "success",
-            title: "Producto Agregado"
-        });
+        if (state.productId === "") {
+            Toast.fire({
+                icon: "success",
+                title: "Producto Agregado"
+            });
+        } else {
+            Toast.fire({
+                icon: "success",
+                title: "Producto Actualizado"
+            });
+        }
+
         setIsModalVisible(false)
 
     }
@@ -132,7 +142,7 @@ export const Form = ({ setIsModalVisible, dispatch, state }: FormProps) => {
                 <div className="flex flex-col my-3">
                     <label>Total Estimado: {""}
                         <span className="text-blue-500">
-                            {list.amount * list.price}
+                            {formatCurrency(estimatedTotal)}
                         </span>
                     </label>
                 </div>

@@ -1,3 +1,4 @@
+import { Toast } from "../helpers";
 import { listItem } from "../types"
 
 // las acciones son las que describen que es lo que esta sucediendo una ves que queramos modificar el state
@@ -7,8 +8,9 @@ export type ProductsActions =
     // newActivity es un objeto que se nombro asi y Activity es el tipo de dato para prevenir error de TS
     { type: "save-product", payload: { newProducts: listItem } } |
     // esta es la accion para actualizar
-    { type: "set-productId", payload: { id: listItem["id"] } }
-// { type: "delete-activity", payload: { id: Activity["id"] } }
+    { type: "set-productId", payload: { id: listItem["id"] } } |
+    { type: "purchased-product", payload: { id: listItem["id"] } } |
+    { type: "delete-product", payload: { id: listItem["id"] } }
 
 
 export type ProductsState = {
@@ -17,9 +19,20 @@ export type ProductsState = {
     productId: listItem["id"]
 }
 
+// obtenemos datos del localStorage
+const localStorageProducts = (): listItem[] => {
+    // para obtener las actividades ya guardadas en el localStorage
+    const products = localStorage.getItem('products')
+    return (
+        // si tenemos lo vamos a regresar como un arreglo caso contrario cuando no hay nada en el localstorage se inicia como arreglo vacio
+        products ? JSON.parse(products) : []
+    )
+}
+
 export const initialState: ProductsState = {
     // esta tiene que ser nombrada igual que ProductsState
-    products: [],
+    // estos son los valores iniciales
+    products: localStorageProducts(),
     productId: ""
 }
 
@@ -29,8 +42,8 @@ export const productsReducer = (
 ) => {
 
     // si action.type es igual a eso ejecuta esa accion
+    let updateList: listItem[] = []
     if (action.type === "save-product") {
-        let updateList: listItem[] = []
 
         // para editar
         if (state.productId) {
@@ -47,13 +60,39 @@ export const productsReducer = (
             productId: ""
         }
     }
+    // para actualizar el producto a comprado
+    if (action.type === "purchased-product") {
+        // updateList = state.products.filter(item => item.id === action.payload.id ? item.buy = true: item.buy = false)
+        updateList = state.products.map(item =>
+            // item.id es igual al payload.id me devuelve una copia del item con el buy diferente de lo que esta de no ser igual devuelve todo el item
+            item.id === action.payload.id ? { ...item, buy: !item.buy } : item
+        );
+        return {
+            // tengo una copia de lo que no voy actualizar
+            ...state,
+            products: updateList,
+        }
+    }
 
-    // para editar los elementos
+    // para seleccionar el producto por el id
     if (action.type === "set-productId") {
         return {
             // tengo una copia de lo que no voy actualizar
             ...state,
             productId: action.payload.id
+        }
+    }
+
+    // para eliminar el producto
+    if (action.type === "delete-product") {
+        Toast.fire({
+            icon: "success",
+            title: "Producto Eliminado"
+        });
+        return {
+            // tengo una copia de lo que no voy actualizar
+            ...state,
+            products: state.products.filter(item => item.id !== action.payload.id)
         }
     }
 

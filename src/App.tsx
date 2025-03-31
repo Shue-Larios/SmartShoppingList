@@ -3,7 +3,7 @@ import { Header } from "./components/Header"
 import { List } from "./components/List"
 import { PlusIcon } from '@heroicons/react/24/solid'
 import { Modal } from "./components/Modal"
-import { useReducer, useState } from "react"
+import { useEffect, useReducer, useState } from "react"
 import { initialState, productsReducer } from "./reducers/list-reducer"
 
 
@@ -17,10 +17,14 @@ function App() {
   // para el modal si esta abierto o no
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  // guardamos datos en el localStorage
+  useEffect(() => {
+    localStorage.setItem("products", JSON.stringify(state.products))
+  }, [state.products])
 
- 
 
- 
+
+
 
   return (
 
