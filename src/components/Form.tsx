@@ -17,16 +17,16 @@ const initialState: listItem = {
     name: "",
     categorie: 1,
     buy: false,
-    amount: 0,
-    price: 0
+    amount: "",
+    price: ""
 }
 
 export const Form = ({ setIsModalVisible, dispatch, state }: FormProps) => {
 
     const [list, setList] = useState<listItem>(initialState)
 
-    const estimatedTotal = useMemo(() => list.amount * list.price, [list])
-
+    // para asegurarme que es un numero le coloca el +
+    const estimatedTotal = useMemo(() => +list.amount * +list.price, [list])
 
 
     // este useEffect funciona para llenar los input al momento de actualizar

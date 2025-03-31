@@ -8,7 +8,7 @@ type HeaderProps = {
 
 export const Header = ({ state }: HeaderProps) => {
 
-    const estimatedAmount = state.products.reduce((total, item) => total + item.price, 0)
+    const estimatedAmount = state.products.reduce((total, item) => total + (item.price * item.amount), 0)
 
     return (
         <header className="bg-lime-500 h-20 w-full grid place-items-center">

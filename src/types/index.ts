@@ -8,8 +8,8 @@ export type listItem = {
     id: string,
     categorie: number,
     name: string,
-    amount: number,
-    price: number
+    amount: string,
+    price: string
     buy: boolean,
 }
 
