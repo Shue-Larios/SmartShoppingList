@@ -26,7 +26,7 @@ export const Modal = ({ isModalVisible, setIsModalVisible, state, dispatch }: Mo
     }
 
     // cerrar el modal con el boton
-    const circleIconOut = () =>{
+    const circleIconOut = () => {
         setIsModalVisible(false)
         state.productId = ""
     }
@@ -38,7 +38,7 @@ export const Modal = ({ isModalVisible, setIsModalVisible, state, dispatch }: Mo
             onClick={handleClickOut}>
 
             {/* e.stopPropagation() previene que el evento de clic se propague hacia los elementos padres, es decir, detiene la "burbuja" del evento. */}
-            <div className="bg-white p-6 rounded-lg w-5/6 sm:h-auto sm:scale-65 md:scale-100 md:w-2/3 lg:w-1/3" onClick={(e) => e.stopPropagation()} >
+            <div className="bg-white p-6 rounded-lg w-5/6 sm:h-auto  md:w-2/3 lg:w-1/3" onClick={(e) => e.stopPropagation()} >
                 {/* icono de cerrar sesion */}
                 <div className="relative">
                     <XCircleIcon
@@ -46,13 +46,17 @@ export const Modal = ({ isModalVisible, setIsModalVisible, state, dispatch }: Mo
                         onClick={circleIconOut}
                         className='absolute -top-10 -right-20 px-10  h-10 cursor-pointer text-red-500'
                     />
-                    <h2 className="text-2xl mb-4 text-center">¡Agrega producto a tu Lista!</h2>
-                    {/* contenido del modal   */}
-                    <Form
-                        setIsModalVisible={setIsModalVisible}
-                        dispatch={dispatch}
-                        state={state}
-                    />
+                    <div className="max-h-[90vh]  overflow-auto">
+                       
+                        <h2 className="text-2xl mb-4 text-center">¡Agrega producto a tu Lista!</h2>
+                        {/* contenido del modal   */}
+                        <Form
+                            setIsModalVisible={setIsModalVisible}
+                            dispatch={dispatch}
+                            state={state}
+                        />
+                    </div>
+
                 </div>
             </div>
         </div>
