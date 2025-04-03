@@ -38,7 +38,7 @@ export const Modal = ({ isModalVisible, setIsModalVisible, state, dispatch }: Mo
             onClick={handleClickOut}>
 
             {/* e.stopPropagation() previene que el evento de clic se propague hacia los elementos padres, es decir, detiene la "burbuja" del evento. */}
-            <div className="bg-white p-6 rounded-lg w-5/6 md:w-2/3 lg:w-1/3" onClick={(e) => e.stopPropagation()} >
+            <div className="bg-white p-6 rounded-lg w-5/6 sm:h-auto sm:scale-65 md:scale-100 md:w-2/3 lg:w-1/3" onClick={(e) => e.stopPropagation()} >
                 {/* icono de cerrar sesion */}
                 <div className="relative">
                     <XCircleIcon

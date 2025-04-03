@@ -22,11 +22,9 @@ type ListProps = {
 
 export const List = ({ state, setIsModalVisible, dispatch }: ListProps) => {
 
-  const productList = state.products
-
-  const productosPorCategoria = categoryItems.filter(f => productList.some(p => p.categorie === f.id)).map(category => ({
+  const productsByCategory = categoryItems.filter(f => state.products.some(p => p.categorie === f.id)).map(category => ({
     ...category,
-    productos: productList.filter(product => product.categorie === category.id),
+    productos: state.products.filter(product => product.categorie === category.id),
   }));
 
   // ============================
@@ -60,7 +58,6 @@ export const List = ({ state, setIsModalVisible, dispatch }: ListProps) => {
 
   // Funcion para Eliminar
   const Deleted = (e: string) => {
-    console.log(e);
     dispatch({ type: "delete-product", payload: { id: e } })
   }
 
@@ -85,7 +82,7 @@ export const List = ({ state, setIsModalVisible, dispatch }: ListProps) => {
   return (
     <>
       <div className="grid m-5 gap-2 md:grid-cols-4">
-        {productosPorCategoria.map(category => (
+        {productsByCategory.map(category => (
           <div key={category.id} className="pb-2    border rounded-lg">
             {category.productos.length > 0 && (
               <>
