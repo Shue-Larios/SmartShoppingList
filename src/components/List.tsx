@@ -86,7 +86,7 @@ export const List = ({ state, setIsModalVisible, dispatch }: ListProps) => {
           <div key={category.id} className="pb-2    border rounded-lg">
             {category.productos.length > 0 && (
               <>
-                <div className={`${category.color} text-white mb-2 border-b text-center text-2xl uppercase flex items-center justify-center`}>
+                <div className={`${category.color} text-white mb-2 rounded-t m-0.5 text-center text-2xl uppercase flex items-center justify-center`}>
                   {category.name}
                 </div>
                 <ul className="space-y-2">
@@ -98,9 +98,8 @@ export const List = ({ state, setIsModalVisible, dispatch }: ListProps) => {
                           maxSwipe={50}
                           leadingActions={leadingActions(product.id)}
                           trailingActions={trailingActions(product.id)}>
-                          <div className="flex justify-center gap-5 w-full h-8 items-center cursor-pointer bg-blue-200"
+                          <div className="flex justify-center items-center mb-2 text-2xl uppercase rounded m-0.5 gap-5 w-full h-8  cursor-pointer bg-blue-200"       
                             onDoubleClick={() => purchasedItem(product)}>
-
                             <CheckIcon className="h-6 w-6 ml-5 text-blue-500 mr-3" />
                             <p className="">{product.name}</p>
                           </div>
@@ -114,7 +113,8 @@ export const List = ({ state, setIsModalVisible, dispatch }: ListProps) => {
                           maxSwipe={50}
                           leadingActions={leadingActions(product.id)}
                           trailingActions={trailingActions(product.id)} >
-                          <div className="flex justify-center gap-5 w-full h-8 items-center cursor-pointer bg-gray-200"
+                          
+                          <div className="bg-gray-200  mb-2 rounded m-0.5 w-full gap-5 cursor-pointer text-2xl uppercase flex items-center justify-center"
                             onDoubleClick={() => purchasedItem(product)}
                           >
                             <MinusIcon className="h-6 w-6 ml-5" />
