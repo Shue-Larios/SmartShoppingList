@@ -1,4 +1,4 @@
-import { ActionDispatch, Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { Form } from "./Form";
 import { XCircleIcon } from '@heroicons/react/24/solid'
 import { ProductsActions, ProductsState } from "../reducers/list-reducer";
@@ -6,10 +6,9 @@ type ModalProps = {
     isModalVisible: boolean
     setIsModalVisible: Dispatch<SetStateAction<boolean>>
     state: ProductsState
-    dispatch: ActionDispatch<[action: ProductsActions]>
+    dispatch: Dispatch<ProductsActions>
 
 }
-// dispatch({ type: "save-product", payload: { newProducts: e } })
 
 
 export const Modal = ({ isModalVisible, setIsModalVisible, state, dispatch }: ModalProps) => {
@@ -34,20 +33,19 @@ export const Modal = ({ isModalVisible, setIsModalVisible, state, dispatch }: Mo
     // lg:w-1/4 md:w-1/2
     return (
         // backModal una clase personalizada que utilice para identificar el área que rodea el contenido de la modal
-        <div className="backModal  fixed inset-0 bg-gray-200   opacity-96 flex justify-center items-center z-50"
+        <div className="backModal  fixed inset-0 bg-gray-200  opacity-96 flex justify-center items-center"
             onClick={handleClickOut}>
-
             {/* e.stopPropagation() previene que el evento de clic se propague hacia los elementos padres, es decir, detiene la "burbuja" del evento. */}
-            <div className="bg-white p-6 rounded-lg w-5/6 sm:h-auto  md:w-2/3 lg:w-1/3" onClick={(e) => e.stopPropagation()} >
+            <div className="bg-white p-6 rounded-lg w-5/6  md:w-2/3 lg:w-1/3" onClick={(e) => e.stopPropagation()} >
                 {/* icono de cerrar sesion */}
                 <div className="relative">
-                    <XCircleIcon
+                      <XCircleIcon
                         title="Cerrar Ventana"
                         onClick={circleIconOut}
                         className='absolute -top-10 -right-20 px-10  h-10 cursor-pointer text-red-500'
-                    />
-                    <div className="max-h-[90vh]  overflow-auto">
-                       
+                    />  
+                    {/* classname para poner scroll en la rotacion de pantalla de movil */}
+                    <div className=" md:max-h-[75vh] overflow-auto">           
                         <h2 className="text-2xl mb-4 text-center">¡Agrega producto a tu Lista!</h2>
                         {/* contenido del modal   */}
                         <Form

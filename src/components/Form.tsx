@@ -1,13 +1,13 @@
-import { ActionDispatch, ChangeEvent, Dispatch, FormEvent, SetStateAction, useEffect, useMemo, useState } from "react"
+import { ChangeEvent, Dispatch, FormEvent, SetStateAction, useEffect, useMemo, useState } from "react"
 import { categoryItems } from "../data/db"
 import { ArrowUpCircleIcon } from '@heroicons/react/24/solid'
 import { ProductsActions, ProductsState } from "../reducers/list-reducer"
-import { listItem } from "../types"
+import type { listItem } from "../types"
 import { formatCurrency, Toast } from "../helpers"
 import { v4 as uuidv4 } from 'uuid';
 type FormProps = {
     setIsModalVisible: Dispatch<SetStateAction<boolean>>
-    dispatch: ActionDispatch<[action: ProductsActions]>
+    dispatch: Dispatch<ProductsActions>
     state: ProductsState
 }
 

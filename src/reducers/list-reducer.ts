@@ -1,5 +1,5 @@
 import { Toast } from "../helpers";
-import { listItem } from "../types"
+import type { listItem } from "../types"
 
 // las acciones son las que describen que es lo que esta sucediendo una ves que queramos modificar el state
 export type ProductsActions =
@@ -38,6 +38,7 @@ export const initialState: ProductsState = {
 }
 
 export const productsReducer = (
+    // esto lo tenemos que comparar para tener un mejor autocompletado
     state: ProductsState = initialState,
     action: ProductsActions
 ) => {
@@ -105,6 +106,6 @@ export const productsReducer = (
             productId: ""
         }
     }
-
+// esta linea siempre va
     return state
 }

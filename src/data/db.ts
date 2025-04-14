@@ -1,6 +1,6 @@
-import { CategoryItems } from "../types";
+import type { CategoryItems } from "../types";
 
-// le estamos asignando su type de MenuItems
+// le estamos asignando su type de CategoryItems
 export const categoryItems : CategoryItems[] = [
     {
         "id": 1,

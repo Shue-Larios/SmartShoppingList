@@ -9,14 +9,14 @@ import {
   TrailingActions,
 } from 'react-swipeable-list';
 import 'react-swipeable-list/dist/styles.css';
-import { listItem } from "../types";
+import type { listItem } from "../types";
 import { ProductsActions, ProductsState } from "../reducers/list-reducer";
 import { Toast } from "../helpers";
-import { ActionDispatch, Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 
 type ListProps = {
   state: ProductsState
-  dispatch: ActionDispatch<[action: ProductsActions]>
+  dispatch: Dispatch<ProductsActions>
   setIsModalVisible: Dispatch<SetStateAction<boolean>>
 }
 
@@ -29,7 +29,7 @@ export const List = ({ state, setIsModalVisible, dispatch }: ListProps) => {
 
   // ============================
   // la accion para editar
-  const leadingActions = (e: string) => (
+  const leadingActions = (e: listItem["id"]) => (
     <LeadingActions>
       <SwipeAction onClick={() => Edit(e)}>
         Editar
@@ -37,7 +37,7 @@ export const List = ({ state, setIsModalVisible, dispatch }: ListProps) => {
     </LeadingActions>
   );
   // la accion para eliminar
-  const trailingActions = (e: string) => (
+  const trailingActions = (e: listItem["id"]) => (
     <TrailingActions>
       <SwipeAction
         // destructive={true}
@@ -51,13 +51,13 @@ export const List = ({ state, setIsModalVisible, dispatch }: ListProps) => {
 
 
   // Funcion para editar
-  const Edit = (e: string) => {
+  const Edit = (e: listItem["id"]) => {
     dispatch({ type: "set-productId", payload: { id: e } })
     setIsModalVisible(true)
   }
 
   // Funcion para Eliminar
-  const Deleted = (e: string) => {
+  const Deleted = (e: listItem["id"]) => {
     dispatch({ type: "delete-product", payload: { id: e } })
   }
 
