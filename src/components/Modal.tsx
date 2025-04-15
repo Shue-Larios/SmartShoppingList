@@ -62,14 +62,15 @@ export const Modal = ({ isModalVisible, setIsModalVisible, state, dispatch }: Mo
                                 leaveFrom="opacity-100 scale-100"
                                 leaveTo="opacity-0 scale-95"
                             >
-                                <Dialog.Panel className="w-auto h-auto max-w-3xl transform overflow-visible rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                                {/* aca le agregue para que se modifique el tama;o del cuadro de dialogo */}
+                                <Dialog.Panel className="w-auto md:w-98 h-auto max-w-3xl transform overflow-visible rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                                     <XCircleIcon
                                         title="Cerrar Ventana"
                                         onClick={circleIconOut}
                                         className="absolute -top-4 -right-5 h-10 w-10 cursor-pointer text-red-500 hover:text-red-700"
                                     />
 
-                                    <div className=" ">
+                                    <div className="">
                                         <h2 className="text-2xl mb-4 text-center">¡Agrega producto a tu Lista!</h2>
                                         {/* contenido del modal   */}
                                         <Form
