@@ -45,7 +45,7 @@ export const Modal = ({ isModalVisible, setIsModalVisible, state, dispatch }: Mo
                         className='absolute -top-10 -right-20 px-10  h-10 cursor-pointer text-red-500'
                     />  
                     {/* classname para poner scroll en la rotacion de pantalla de movil */}
-                    <div className=" md:max-h-[75vh] overflow-auto">           
+                    <div className=" md:max-h-[60vh] overflow-auto">           
                         <h2 className="text-2xl mb-4 text-center">¡Agrega producto a tu Lista!</h2>
                         {/* contenido del modal   */}
                         <Form
