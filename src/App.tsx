@@ -63,14 +63,14 @@ function App() {
       }
 
       {/* para abrir la ventana modal */}
-      <div className="App">
-        <button className="fixed bottom-4 right-5 bg-lime-500 text-white rounded-full h-10 w-10 md:h-15 md:w-15 hover:bg-lime-600 text-center cursor-pointer"
+      <div className="">
+        {/* <button className="fixed bottom-4 right-5 bg-lime-500 text-white rounded-full h-10 w-10 md:h-15 md:w-15 hover:bg-lime-600 text-center cursor-pointer"
           title="Agrega Productos"
           onClick={() => setIsModalVisible(true)}
         >
           <PlusIcon
           />
-        </button>
+        </button> */}
 
         {state.products.length > 0
           ? <button className="fixed bottom-4 left-5 bg-red-500 text-white rounded-full h-10 w-10 md:h-15 md:w-15 hover:bg-red-600 text-center cursor-pointer"
@@ -83,14 +83,14 @@ function App() {
           </button>
           : <></>
         }
-
-
         <Modal
           isModalVisible={isModalVisible}
           setIsModalVisible={setIsModalVisible}
           state={state}
           dispatch={dispatch}
         />
+
+
       </div>
     </>
   )

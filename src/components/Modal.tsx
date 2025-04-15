@@ -2,6 +2,11 @@ import { Dispatch, SetStateAction } from "react";
 import { Form } from "./Form";
 import { XCircleIcon } from '@heroicons/react/24/solid'
 import { ProductsActions, ProductsState } from "../reducers/list-reducer";
+import { Dialog, Transition } from '@headlessui/react'
+import { Fragment } from 'react'
+import { PlusCircleIcon } from '@heroicons/react/24/solid'
+
+
 type ModalProps = {
     isModalVisible: boolean
     setIsModalVisible: Dispatch<SetStateAction<boolean>>
@@ -12,51 +17,81 @@ type ModalProps = {
 
 
 export const Modal = ({ isModalVisible, setIsModalVisible, state, dispatch }: ModalProps) => {
-
-    if (!isModalVisible) return null; // Si no se debe mostrar la modal, no renderiza nada
-
-
-    // Si el clic es fuera del modal, cierra la modal
-    const handleClickOut = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        if ((e.target as HTMLElement).classList.contains('backModal')) {
-            setIsModalVisible(false)
-            state.productId = ""
-        }
-    }
-
     // cerrar el modal con el boton
     const circleIconOut = () => {
         setIsModalVisible(false)
         state.productId = ""
     }
 
-    // lg:w-1/4 md:w-1/2
-    return (
-        // backModal una clase personalizada que utilice para identificar el área que rodea el contenido de la modal
-        <div className="backModal  fixed inset-0 bg-gray-200  opacity-96 flex justify-center items-center"
-            onClick={handleClickOut}>
-            {/* e.stopPropagation() previene que el evento de clic se propague hacia los elementos padres, es decir, detiene la "burbuja" del evento. */}
-            <div className="bg-white p-6 rounded-lg w-5/6  md:w-2/3 lg:w-1/3" onClick={(e) => e.stopPropagation()} >
-                {/* icono de cerrar sesion */}
-                <div className="relative">
-                      <XCircleIcon
-                        title="Cerrar Ventana"
-                        onClick={circleIconOut}
-                        className='absolute -top-10 -right-20 px-10  h-10 cursor-pointer text-red-500'
-                    />  
-                    {/* classname para poner scroll en la rotacion de pantalla de movil */}
-                    <div className=" md:max-h-[60vh] overflow-auto">           
-                        <h2 className="text-2xl mb-4 text-center">¡Agrega producto a tu Lista!</h2>
-                        {/* contenido del modal   */}
-                        <Form
-                            setIsModalVisible={setIsModalVisible}
-                            dispatch={dispatch}
-                            state={state}
-                        />
-                    </div>
 
-                </div>
+    return (
+
+        <>
+            <div className="fixed right-5 bottom-5 flex items-center justify-center">
+                <button
+                    className="cursor-pointer"
+                    type="button"
+                    onClick={() => setIsModalVisible(true)}
+                >
+                    <PlusCircleIcon className='w-16 h-16 text-blue-600 hover:text-blue-800 rounded-full' />
+                </button>
             </div>
-        </div>
+
+
+            <Transition appear show={isModalVisible} as={Fragment}>
+
+                <Dialog as="div" className="relative z-10" onClose={circleIconOut}>
+
+                    <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                    >
+                        <div className="fixed inset-0 bg-gray-200 bg-opacity-75" />
+                    </Transition.Child>
+                    <div className="fixed  inset-0 overflow-y-auto">
+                        <div className="flex min-h-full items-center justify-center p-4 text-center">
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0 scale-95"
+                                enterTo="opacity-100 scale-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100 scale-100"
+                                leaveTo="opacity-0 scale-95"
+                            >
+
+                                <Dialog.Panel className=" absolute w-full max-w-3xl transform overflow-visible rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                                    <XCircleIcon
+                                        title="Cerrar Ventana"
+                                        onClick={circleIconOut}
+                                        className="absolute -top-4 -right-5 h-10 w-10 cursor-pointer text-red-500 hover:text-red-700"
+                                    />
+
+                                    <div className=" ">
+                                        <h2 className="text-2xl mb-4 text-center">¡Agrega producto a tu Lista!</h2>
+                                        {/* contenido del modal   */}
+                                        <Form
+                                            setIsModalVisible={setIsModalVisible}
+                                            dispatch={dispatch}
+                                            state={state}
+                                        />
+                                    </div>
+
+                                </Dialog.Panel>
+                            </Transition.Child>
+                        </div>
+                    </div>
+                </Dialog>
+            </Transition>
+        </>
+
+
+
+
     );
 };
