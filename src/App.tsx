@@ -1,7 +1,7 @@
 
 import { Header } from "./components/Header"
 import { List } from "./components/List"
-import { PlusIcon, ArrowPathIcon } from '@heroicons/react/24/solid'
+import { ArrowPathIcon } from '@heroicons/react/24/solid'
 import { Modal } from "./components/Modal"
 import { useEffect, useReducer, useState } from "react"
 import { initialState, productsReducer } from "./reducers/list-reducer"
