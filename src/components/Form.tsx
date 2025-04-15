@@ -139,7 +139,7 @@ export const Form = ({ setIsModalVisible, dispatch, state }: FormProps) => {
                         onChange={handleChange}
                     />
                 </div>
-                <div className="flex flex-col my-3">
+                <div className="flex items-center flex-col my-3">
                     <label>Total Estimado: {""}
                         <span className="text-blue-500">
                             {formatCurrency(estimatedTotal)}
@@ -147,17 +147,14 @@ export const Form = ({ setIsModalVisible, dispatch, state }: FormProps) => {
                     </label>
                 </div>
 
-                <div className="md:col-span-2">
+                <div className="flex justify-center">
                     <button
-                        className="flex flex-row-reverse gap-2 items-center cursor-pointer rounded-lg bg-green-500 hover:bg-green-700 p-1 text-white"
+                        className="flex flex-row-reverse items-center gap-2 cursor-pointer rounded-lg bg-green-500 hover:bg-green-700 p-1 text-white"
                         title="Guardar en la lista"
                     >
                         <ArrowUpCircleIcon className="h-5 w-5" />
                         <p className="ml-2">Guardar</p>
                     </button>
-
-
-
                 </div>
             </div>
 
